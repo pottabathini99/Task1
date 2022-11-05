@@ -1,0 +1,102 @@
+CONTINOUS INTEGRATION: combination of continous build and  test
+
+before CI: write code---->github---->integrtae code with jenkins---->testing---->if error return to developers
+after CI: write code---->github---(integrate)---->CI Server(build and test)---->if failed go back to developers
+
+CI SERVER: build,test and deploy activities are performed in a single CI SERVER
+
+CONTINOUS DEPLOYMENT/DELIVERY: CDelivery is ready state for deployment
+                                                          CDeployement is wen we commit code then it gets automaticall tested, build and deployed on production server
+
+CI/CD PIPELINES: we use this to rectify the bugs fast, so that development is fast and the steps include:
+1.version Control----GIT
+2. Build--------Maven
+3.Unit Test----Testing functionality
+4.Deploy----to QA servers 
+5.Automation Testing----selenium or JUnit
+6.Deployment to Production
+ 
+JENKINS:
+1.its an open source, written in java by KOHSUKE KAWAGUCHI, and it runs on any OS
+2.it is community supported and use for continuous integration
+3.consists of plugins(it is a small softwareand used to add xtra features to our jenkin dashboard)
+4.automtes the entire SDLC
+5.platform independent
+6.we can integrate our code with jenkins and can build,deploy.
+
+ADVANTAGES:
+1. jenkins used master-slave architecture[ master(Server)----assign work--->Slaves(servers)]
+2. you have 3 types of plugins: i.default Plugins ii. Community plugins iii.our own plugins
+3. By using the labels we can specify the jobs to the nodes
+
+ALTERNATIVES TO JENKINS: Bamboo, CircleCI, GitLAb, Buddy and TC
+
+JENKINS SETUP: 
+1. Launch instance with 8080 Port
+2. go to JENKINS.io(copy 2 links and paste in the server)
+3. install EPEL(Extra Packages for Enterprise Linux) and Java11[amazon-linux-extras install epel -y ; amazon-linux-extras install java-openjdk11 -y ]
+4. Jenkins Install.[yum install jenkins -y]
+5.Jenkins Restart[systemctl status jenkins, systemctl start jenkins]
+
+HOW TO CONNECT TO JENKINS DASHBOARD:
+1.Copy public IP address and paste in chrome with port number
+   ex:53.097.8:8080
+2. copy the url and paste in the console and now u get a password in the console
+3.now paste that password under the url in the chrome
+4.now click on install suggested plugins
+5.now create admin user
+6.click save and continue and now u will enter into jenkins dashboard.
+
+WHERE DO WE FIND THE TASK THROUGH TERMINAL:
+1. cd /var/lib/jenkins
+2.cd workspace
+3.ll
+4.job-1
+5.ll
+note: shown only when u create a job in jenkins dashboard.
+
+HOW TO CREATE A JOB:
+1.new item< enter item name< freestyle pjct<ok
+2. =>Discard old builds---if we want to delete old builds 
+   =>Github Project------if we want to integrate jenkins with github
+   =>This Project is parameterised---if we want to use parameters in our pjct
+	#Boolean Parameter			=	situations wer we want to give true or false condition
+	#Choice Parameter			=	if we have multiple branches and if want all that list
+	#Credentials Parameter		=	to integrate other apps to jenkins with credentials
+	#File Parameter			=	if the file which we want to build is in computer rather than github	
+	#Multi-Line String Parameter	=	want to pass additional multi line data at the time of bulid 
+	#Password Parameter
+	#Run Parameter
+	#String Parameter			=	want to pass single line of data at the time of build
+3.Source Code Management<if selected github from the 2nd step<select git<add code url<save
+4.Build Triggers:
+	=>Trigger builds remotely---we right scripts here
+	=>Build after other projects are built(Alias Linked Jobs)----if we create a job, creates 2nd job automatically
+		job1---upstream of job2 
+ 		job2
+		job3----downstream of job2
+	=>Trigger only if the build is stable----if job1 build then only go to job2
+	=>Trigger even if the build is unstable---goto nxt job even if job1 is unstable i.e; in unstable state, job gets neither failed nor gets succeeded
+	=>Trigger even if the build fails---goto nxt job even the build gets failed
+	=>always Trigger, even if the build is aborted----even the job gets canceled,goes to nxt job 
+CREATE PIPELINE:
+1.go to manage jenkins<manage plugins<available<serach build pipline<install without restart<and then restart jenkins
+2. login to jenkins account
+3.click + symbol<give pipeline name<build pipeline view<create
+4.select intial job and click ok
+   Note: green indicates success, red indicates failure and blue indicates processing
+5.OPTIONS: Run=to run the pipeline
+	       Add Step= creates new job
+                 Configure=to chnage settings of pipeline
+                 Delete=to delete a pipeline
+                 History=to view the history of pipeline
+
+===============================================
+TASK:
+job-1=github to server
+job2=local file
+job3=using parameters
+job4=any job as u like
+=>if job1 is built, automatically job2 should built and soon
+=>either job fails or not, nxt job should built automatically
+=>and show in pipeline pattern
